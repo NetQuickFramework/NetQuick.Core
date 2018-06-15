@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NetQuick.Core
+namespace NetQuick.Core.Builders
 {
     public interface IClassBuilder : IBuilder
     {        
