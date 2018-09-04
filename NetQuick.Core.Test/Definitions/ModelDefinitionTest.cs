@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System.Linq;
 using NetQuick.Core.Validation;
+using System;
 
 namespace NetQuick.Core.Test
 {
@@ -19,7 +20,38 @@ namespace NetQuick.Core.Test
         }
 
         [Test]
-        public void CreateModelDefinition()
+        public void CreateModelDefinitionWithNewlyDefinedProperties_Succeeds()
+        {
+            //Arrange
+            const string personName = "Person";
+
+            ModelDefinition personDefinition = ModelDefinition.Create(personName);
+            personDefinition.AddProperty("FirstName", BuiltInModelDefinition.Text);
+            personDefinition.AddProperty("LastName", BuiltInModelDefinition.Text);
+            personDefinition.AddProperty("DateOfBirth", BuiltInModelDefinition.Date);
+            personDefinition.AddProperty("Gender", ListDataTypeDefinition.FromEnum<Gender>());
+
+            const string addressDefinitionName = "Address";
+
+            ModelDefinition addressDefinition = ModelDefinition.Create(addressDefinitionName);
+
+            addressDefinition.AddProperty("Street", BuiltInModelDefinition.Text);
+            addressDefinition.AddProperty("HouseNumber", BuiltInModelDefinition.Number);
+            addressDefinition.AddProperty("HouseNumberAddition", BuiltInModelDefinition.Text);
+            addressDefinition.AddProperty("PostalCode", BuiltInModelDefinition.Text);
+            addressDefinition.AddProperty("City", BuiltInModelDefinition.Text);
+
+            personDefinition.AddProperty("Address", addressDefinition);
+
+            Assert.That(personDefinition.Name, Is.EqualTo(personName));
+            Assert.That(addressDefinition.PropertyDefinitions.Count(), Is.EqualTo(5));
+            Assert.That(personDefinition.PropertyDefinitions
+                .Single(p => p.Name == addressDefinitionName)
+                .ModelDefinition.PropertyDefinitions.Count(), Is.EqualTo(5));
+        }
+
+        [Test]
+        public void CreateModelDefinitionWithOnlyBuiltInProperties_Succeeds()
         {
             //Arrange
             const string name = "Address";
@@ -34,20 +66,16 @@ namespace NetQuick.Core.Test
             
             Assert.That(addressDefinition.Name, Is.EqualTo(name));
             Assert.That(addressDefinition.PropertyDefinitions.Count(), Is.EqualTo(5));
-        }
+        }       
 
         [Test]
-        public void CreateModelDefinition_2()
+        public void CreateModelDefinitionWithoutName_ThrowsException()
         {
             //Arrange
-            const string name = "Person";
+            const string name = "";
 
-            ModelDefinition definition = ModelDefinition.Create(name);
-            definition.AddProperty("FirstName", BuiltInModelDefinition.Text);
-            definition.AddProperty("LastName", BuiltInModelDefinition.Text);
-            definition.AddProperty("DateOfBirth", BuiltInModelDefinition.Date);
-            definition.AddProperty("Gender", ListDataTypeDefinition.FromEnum<Gender>());
-        } 
+            Assert.Throws<ArgumentException>(() => ModelDefinition.Create(name));            
+        }       
     }
 
     public enum Gender
