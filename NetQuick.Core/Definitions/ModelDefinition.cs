@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace NetQuick.Core.Definitions
 {
@@ -15,6 +16,11 @@ namespace NetQuick.Core.Definitions
 
         internal ModelDefinition(string name)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("Name cannot be null or having only whitespace characters.", nameof(name));
+            }
+
             Name = name;
             _propertyDefinitions = new List<PropertyDefinition>();
             Extensions = new List<IDefinitionExtension>();

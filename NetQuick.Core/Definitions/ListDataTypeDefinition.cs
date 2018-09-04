@@ -10,6 +10,11 @@ namespace NetQuick.Core.Definitions
 
         internal ListDataTypeDefinition(string name, IDictionary<uint, string> values) : base(DataType.Enumeration)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("Name cannot be null or having only whitespace characters.", nameof(name));
+            }
+
             Name = name;
             Values = new ReadOnlyDictionary<uint, string>(values);
         }

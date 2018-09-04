@@ -2,7 +2,7 @@
 
 namespace NetQuick.Core.Builders
 {
-    public interface IClassBuilder : IBuilder
+    public interface IClassBuilder : IBuilder<string>
     {        
         string ClassName { get; }
         string DefaultFolder { get; }

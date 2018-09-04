@@ -1,6 +1,5 @@
 ﻿namespace NetQuick.Core.Definitions
-{  
-
+{ 
     public class BuiltInModelDefinition : ModelDefinition
     {
         public DataType DataType { get; }

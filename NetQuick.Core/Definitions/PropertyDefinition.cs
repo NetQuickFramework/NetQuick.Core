@@ -1,5 +1,4 @@
-﻿using NetQuick.Core.Validation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace NetQuick.Core.Definitions
@@ -11,6 +10,11 @@ namespace NetQuick.Core.Definitions
     {
         internal PropertyDefinition(string name, string description, ModelDefinition modelDefinition, Cardinality cardinality)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("Name cannot be null or having only whitespace characters.", nameof(name));
+            }
+
             Name = name;
             Description = description;
             ModelDefinition = modelDefinition;
