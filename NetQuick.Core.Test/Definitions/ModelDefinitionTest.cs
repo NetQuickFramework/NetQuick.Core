@@ -1,25 +1,25 @@
 ﻿using NetQuick.Core.Definitions;
-using NUnit.Framework;
 using System.Linq;
-using NetQuick.Core.Validation;
 using System;
+using Xunit;
 
 namespace NetQuick.Core.Test
 {
-    [TestFixture]
+   
     public class ModelDefinitionTest
     {
-        [TestCase(DataType.Date)]
-        [TestCase(DataType.Text)]
-        [TestCase(DataType.Number)]
+        [Theory]
+        [InlineData(DataType.Date)]
+        [InlineData(DataType.Text)]
+        [InlineData(DataType.Number)]
         public void CreateDataTypeDefinition(DataType dataType)
         {
             ModelDefinition definition = BuiltInModelDefinition.Create(dataType);
 
-            Assert.That(definition.Name, Is.EqualTo(dataType.ToString()));
+            Assert.Equal(definition.Name, dataType.ToString());
         }
 
-        [Test]
+        [Fact]
         public void CreateModelDefinitionWithNewlyDefinedProperties_Succeeds()
         {
             //Arrange
@@ -43,14 +43,14 @@ namespace NetQuick.Core.Test
 
             personDefinition.AddProperty("Address", addressDefinition);
 
-            Assert.That(personDefinition.Name, Is.EqualTo(personName));
-            Assert.That(addressDefinition.PropertyDefinitions.Count(), Is.EqualTo(5));
-            Assert.That(personDefinition.PropertyDefinitions
+            Assert.Equal(personName, personDefinition.Name);
+            Assert.Equal(5, addressDefinition.PropertyDefinitions.Count());
+            Assert.Equal(5, personDefinition.PropertyDefinitions
                 .Single(p => p.Name == addressDefinitionName)
-                .ModelDefinition.PropertyDefinitions.Count(), Is.EqualTo(5));
+                .ModelDefinition.PropertyDefinitions.Count());
         }
 
-        [Test]
+        [Fact]
         public void CreateModelDefinitionWithOnlyBuiltInProperties_Succeeds()
         {
             //Arrange
@@ -64,11 +64,11 @@ namespace NetQuick.Core.Test
             addressDefinition.AddProperty("PostalCode", BuiltInModelDefinition.Text);
             addressDefinition.AddProperty("City", BuiltInModelDefinition.Text);
             
-            Assert.That(addressDefinition.Name, Is.EqualTo(name));
-            Assert.That(addressDefinition.PropertyDefinitions.Count(), Is.EqualTo(5));
+            Assert.Equal(name, addressDefinition.Name);
+            Assert.Equal(5, addressDefinition.PropertyDefinitions.Count());
         }       
 
-        [Test]
+        [Fact]
         public void CreateModelDefinitionWithoutName_ThrowsException()
         {
             //Arrange

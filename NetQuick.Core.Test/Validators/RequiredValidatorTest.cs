@@ -1,33 +1,32 @@
 ﻿using NetQuick.Core.Definitions;
 using NetQuick.Core.Validation;
-using NUnit.Framework;
+using Xunit;
 
 namespace NetQuick.Core.Test.Validators
 {
-    [TestFixture]
-    class RequiredValidatorTest
+    public class RequiredValidatorTest
     {
-        [Test]
+        [Fact]
         public void Validator_IsInitialized()
         {
             const bool required = true;
             var validator = new RequiredValidator(required);
 
-            Assert.That(validator.Required, Is.EqualTo(required));
+            Assert.Equal(required, validator.Required);
         }
 
-        [Test]
+        [Fact]
         public void Validator_IsAddedToProperty()
         {
             const bool required = true;
 
             ModelDefinition modelDefinition = new ModelDefinition("myClass");
-            PropertyDefinition propertyDefinition = new PropertyDefinition("myProperty", "", modelDefinition, Cardinality.OneToOne);
+            PropertyDefinition propertyDefinition = new PropertyDefinition("myProperty", "", modelDefinition, Cardinality.OneToOne, false);
             propertyDefinition.IsRequired(required);
 
-            Assert.That(propertyDefinition.Extensions.Count, Is.EqualTo(1));
-            Assert.That(propertyDefinition.Extensions[0], Is.InstanceOf<RequiredValidator>());
-            Assert.That((propertyDefinition.Extensions[0] as RequiredValidator).Required, Is.EqualTo(required));
+            Assert.Equal(1, propertyDefinition.Extensions.Count);
+            Assert.IsAssignableFrom<RequiredValidator>(propertyDefinition.Extensions[0]);
+            Assert.Equal(required, (propertyDefinition.Extensions[0] as RequiredValidator).Required);
         }
     }
 }

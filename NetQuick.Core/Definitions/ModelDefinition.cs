@@ -32,9 +32,9 @@ namespace NetQuick.Core.Definitions
         }      
               
 
-        public PropertyDefinition AddProperty(string name, ModelDefinition modelDefinition, string description = "", Cardinality cardinality = Cardinality.OneToOne)
+        public PropertyDefinition AddProperty(string name, ModelDefinition modelDefinition, string description = "", Cardinality cardinality = Cardinality.OneToOne, bool isRequired = false)
         {
-            var propertyDefinition = PropertyDefinition.Create(name, description, modelDefinition, cardinality);
+            var propertyDefinition = PropertyDefinition.Create(name, description, modelDefinition, cardinality, isRequired);
             _propertyDefinitions.Add(propertyDefinition);
             return propertyDefinition;
         }

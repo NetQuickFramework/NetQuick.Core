@@ -1,32 +1,31 @@
 ﻿using NetQuick.Core.Definitions;
 using NetQuick.Core.Validation;
-using NUnit.Framework;
+using Xunit;
 
 namespace NetQuick.Core.Test.Validators
 {
-    [TestFixture]
-    class MinLenghtValidatorTest
+    public class MinLenghtValidatorTest
     {
-        [Test]
+        [Fact]
         public void Validator_IsInitialized()
         {
             const int minLength = 10;
             var validator = new MinLengthValidator(minLength);
 
-            Assert.That(validator.MinLenght, Is.EqualTo(minLength));
+            Assert.Equal(minLength, validator.MinLenght);
         }
 
-        [Test]
+        [Fact]
         public void Validator_IsAddedToProperty()
         {
             const int minLength = 10;
 
-            PropertyDefinition propertyDefinition = new PropertyDefinition("myProperty", "", null, Cardinality.OneToOne);
+            PropertyDefinition propertyDefinition = new PropertyDefinition("myProperty", "", null, Cardinality.OneToOne, false);
             propertyDefinition.SetMinLenght(minLength);
 
-            Assert.That(propertyDefinition.Extensions.Count, Is.EqualTo(1));
-            Assert.That(propertyDefinition.Extensions[0], Is.InstanceOf<MinLengthValidator>());
-            Assert.That((propertyDefinition.Extensions[0] as MinLengthValidator).MinLenght, Is.EqualTo(minLength));
+            Assert.Equal(1, propertyDefinition.Extensions.Count);
+            Assert.IsAssignableFrom<MinLengthValidator>(propertyDefinition.Extensions[0]);
+            Assert.Equal(minLength, (propertyDefinition.Extensions[0] as MinLengthValidator).MinLenght);
         }
     }
 }

@@ -1,30 +1,29 @@
 ﻿using NetQuick.Core.Definitions;
-using NUnit.Framework;
+using Xunit;
 
 namespace NetQuick.Core.Test.Definitions
 {
-    [TestFixture]
     public class EnumerationDataTypeDefinitionTest
     {
         public enum GenderWithId
         {
-            Male = 1, 
+            Male = 1,
             Female = 2
         }
 
         public enum GenderWithoutId
         {
-            Male ,
+            Male,
             Female
         }
 
-        [Test]
+        [Fact]
         public void ConvertEnumToDataType_With_Id()
         {
-           var definition = ListDataTypeDefinition.FromEnum<GenderWithId>();
+            var definition = ListDataTypeDefinition.FromEnum<GenderWithId>();
         }
 
-        [Test]
+        [Fact]
         public void ConvertEnumToDataType_Without_Id()
         {
             var definition = ListDataTypeDefinition.FromEnum<GenderWithoutId>();

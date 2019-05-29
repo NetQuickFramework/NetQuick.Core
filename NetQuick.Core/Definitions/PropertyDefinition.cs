@@ -8,7 +8,7 @@ namespace NetQuick.Core.Definitions
     /// </summary>
     public class PropertyDefinition : IDefinition
     {
-        internal PropertyDefinition(string name, string description, ModelDefinition modelDefinition, Cardinality cardinality)
+        internal PropertyDefinition(string name, string description, ModelDefinition modelDefinition, Cardinality cardinality, bool isRequired)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -19,6 +19,7 @@ namespace NetQuick.Core.Definitions
             Description = description;
             ModelDefinition = modelDefinition;
             Cardinality = cardinality;
+            Required = isRequired;
             Extensions = new List<IDefinitionExtension>();           
         }        
       
@@ -30,9 +31,9 @@ namespace NetQuick.Core.Definitions
 
         public IList<IDefinitionExtension> Extensions { get; }
 
-        internal static PropertyDefinition Create(string name, string description, ModelDefinition modelDefinition, Cardinality cardinality)
+        internal static PropertyDefinition Create(string name, string description, ModelDefinition modelDefinition, Cardinality cardinality, bool isRequired)
         {
-            return new PropertyDefinition(name, description, modelDefinition, cardinality);
+            return new PropertyDefinition(name, description, modelDefinition, cardinality, isRequired);
         }      
     }
 }
