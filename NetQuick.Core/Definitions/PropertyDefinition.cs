@@ -34,7 +34,12 @@ namespace NetQuick.Core.Definitions
         internal static PropertyDefinition Create(string name, string description, ModelDefinition modelDefinition, Cardinality cardinality, bool isRequired)
         {
             return new PropertyDefinition(name, description, modelDefinition, cardinality, isRequired);
-        }      
+        }
+
+        public override string ToString()
+        {
+            return $"{Name} ({ModelDefinition?.Name})";
+        }
     }
 }
 
